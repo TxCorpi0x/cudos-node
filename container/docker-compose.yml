@@ -1,0 +1,20 @@
+services:
+  val:
+    image: cudoos
+    build: 
+      context: ../
+      dockerfile: ./container/Dockerfile
+    tty: true
+    user: "cudo"
+    networks:
+      - no-internet
+    ports:
+      - 26756:26756
+      - 26757:26757
+    command: ["/bin/bash", "/home/cudo/run-node.sh"] 
+networks:
+  no-internet:
+    internal: true
+
+  internet:
+    driver: bridge
