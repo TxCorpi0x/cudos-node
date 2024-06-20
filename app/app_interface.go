@@ -100,6 +100,10 @@ import (
 	addressbook "github.com/CudoVentures/cudos-node/x/addressbook"
 	addressbookkeeper "github.com/CudoVentures/cudos-node/x/addressbook/keeper"
 	addressbooktypes "github.com/CudoVentures/cudos-node/x/addressbook/types"
+
+	mail "github.com/CudoVentures/cudos-node/x/mail"
+	mailkeeper "github.com/CudoVentures/cudos-node/x/mail/keeper"
+	mailtypes "github.com/CudoVentures/cudos-node/x/mail/types"
 )
 
 // We pull these out so we can set them with LDFLAGS in the Makefile
@@ -165,6 +169,7 @@ var (
 		groupmodule.AppModuleBasic{},
 		addressbook.AppModuleBasic{},
 		marketplace.AppModuleBasic{},
+		mail.AppModuleBasic{},
 	)
 
 	maccPerms = map[string][]string{
@@ -233,6 +238,7 @@ type App struct {
 	GroupKeeper       groupkeeper.Keeper
 	AddressbookKeeper addressbookkeeper.Keeper
 	MarketplaceKeeper marketplacekeeper.Keeper
+	MailKeeper        mailkeeper.Keeper
 	// the module manager
 	mm           *module.Manager
 	configurator module.Configurator
@@ -389,6 +395,7 @@ func InitParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(gravitytypes.ModuleName)
 	paramsKeeper.Subspace(addressbooktypes.ModuleName)
 	paramsKeeper.Subspace(marketplacetypes.ModuleName)
+	paramsKeeper.Subspace(mailtypes.ModuleName)
 	paramsKeeper.Subspace(authz.ModuleName)
 	paramsKeeper.Subspace(feegrant.ModuleName)
 	paramsKeeper.Subspace(group.ModuleName)

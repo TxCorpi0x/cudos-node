@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package cudoventures.cudosnode.mail;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "mail/params.proto";
+import "mail/message.proto";
+
+// this line is used by starport scaffolding # 1
+
+option go_package = "github.com/CudoVentures/cudos-node/x/mail/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  
+  // Parameters queries the parameters of the module.
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/CudoVentures/cudos-node/mail/params";
+  
+  }
+
+  // this line is used by starport scaffolding # 2
+  
+  // Queries a certain message and parent forwards.
+  rpc Message    (QueryGetMessageRequest) returns (QueryGetMessageResponse) {
+    option (google.api.http).get = "/CudoVentures/cudos-node/mail/message/{id}";
+  
+  }
+
+  // Queries a list of Message items.
+  rpc MessageAll (QueryAllMessageRequest) returns (QueryAllMessageResponse) {
+    option (google.api.http).get = "/CudoVentures/cudos-node/mail/message";
+  
+  }
+
+  // Queries a list of sent Message items.
+  rpc MessageAllBySender (QueryAllMessageBySenderRequest) returns (QueryAllMessageBySenderResponse) {
+    option (google.api.http).get = "/CudoVentures/cudos-node/mail/message-by-sender";
+  }
+
+  // Queries a list of received Message items.
+  rpc MessageAllByReceiver (QueryAllMessageByReceiverRequest) returns (QueryAllMessageByReceiverResponse) {
+    option (google.api.http).get = "/CudoVentures/cudos-node/mail/message-by-receiver";
+  }
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+// this line is used by starport scaffolding # 3
+message QueryGetMessageRequest {
+  uint64 id = 1;
+}
+
+message QueryGetMessageResponse {
+  Message Message = 1 [(gogoproto.nullable) = false];
+  repeated Message forwards = 2 [(gogoproto.nullable) = false];
+}
+
+message QueryAllMessageRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllMessageResponse {
+  repeated Message                                Message    = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryAllMessageBySenderRequest {
+  string sender = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryAllMessageBySenderResponse {
+  repeated Message                                Message    = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryAllMessageByReceiverRequest {
+  string receiver = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryAllMessageByReceiverResponse {
+  repeated Message                                Message    = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}

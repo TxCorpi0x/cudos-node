@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package cudoventures.cudosnode.mail;
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/CudoVentures/cudos-node/x/mail/types";
+
+// Msg defines the Msg service.
+service Msg {
+  // this line is used by starport scaffolding # proto/tx/rpc
+  rpc SendMessage (MsgSendMessage) returns (MsgSendMessageResponse);
+}
+
+// this line is used by starport scaffolding # proto/tx/message
+
+message MsgSendMessage {
+  string sender     = 1;
+  string receiver    = 2;
+  string body        = 3;
+  uint64 forwardedId = 4;
+}
+
+message MsgSendMessageResponse {
+  uint64 id = 1;
+}

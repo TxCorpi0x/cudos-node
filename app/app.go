@@ -17,6 +17,7 @@ import (
 	addressbooktypes "github.com/CudoVentures/cudos-node/x/addressbook/types"
 	"github.com/CudoVentures/cudos-node/x/admin"
 	admintypes "github.com/CudoVentures/cudos-node/x/admin/types"
+	mailtypes "github.com/CudoVentures/cudos-node/x/mail/types"
 	marketplacetypes "github.com/CudoVentures/cudos-node/x/marketplace/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
@@ -76,6 +77,8 @@ import (
 	marketplace "github.com/CudoVentures/cudos-node/x/marketplace"
 	"github.com/cosmos/cosmos-sdk/x/group"
 	groupmodule "github.com/cosmos/cosmos-sdk/x/group/module"
+
+	mail "github.com/CudoVentures/cudos-node/x/mail"
 )
 
 const Name = "cudos-node"
@@ -142,6 +145,7 @@ func New(
 		feegrant.StoreKey,
 		group.StoreKey,
 		addressbooktypes.StoreKey,
+		mailtypes.StoreKey,
 		marketplacetypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -174,6 +178,8 @@ func New(
 	marketplaceModule := marketplace.NewAppModule(appCodec, app.MarketplaceKeeper, app.AccountKeeper, app.BankKeeper)
 
 	addressbookModule := addressbook.NewAppModule(appCodec, app.AddressbookKeeper, app.AccountKeeper, app.BankKeeper)
+
+	mailModule := mail.NewAppModule(appCodec, app.MailKeeper, app.AccountKeeper, app.BankKeeper)
 
 	transferModule := transfer.NewAppModule(app.TransferKeeper)
 
@@ -209,6 +215,7 @@ func New(
 		marketplaceModule,
 		groupmodule.NewAppModule(appCodec, app.GroupKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
 		addressbookModule,
+		mailModule,
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -240,6 +247,7 @@ func New(
 		group.ModuleName,
 		addressbooktypes.ModuleName,
 		marketplacetypes.ModuleName,
+		mailtypes.ModuleName,
 	)
 
 	app.mm.SetOrderEndBlockers(
@@ -267,6 +275,7 @@ func New(
 		group.ModuleName,
 		addressbooktypes.ModuleName,
 		marketplacetypes.ModuleName,
+		mailtypes.ModuleName,
 	)
 	// NOTE: The genutils module must occur after staking so that pools are
 	// properly initialized with tokens from genesis accounts.
@@ -303,6 +312,7 @@ func New(
 		group.ModuleName,
 		addressbooktypes.ModuleName,
 		marketplacetypes.ModuleName,
+		mailtypes.ModuleName,
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)

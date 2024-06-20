@@ -66,6 +66,9 @@ import (
 
 	addressbookkeeper "github.com/CudoVentures/cudos-node/x/addressbook/keeper"
 	addressbooktypes "github.com/CudoVentures/cudos-node/x/addressbook/types"
+
+	mailkeeper "github.com/CudoVentures/cudos-node/x/mail/keeper"
+	mailtypes "github.com/CudoVentures/cudos-node/x/mail/types"
 )
 
 func (app *App) AddKeepers(skipUpgradeHeights map[int64]bool, homePath string, appOpts servertypes.AppOptions) {
@@ -157,6 +160,13 @@ func (app *App) AddKeepers(skipUpgradeHeights map[int64]bool, homePath string, a
 		app.GetSubspace(marketplacetypes.ModuleName),
 		app.BankKeeper,
 		app.NftKeeper,
+	)
+
+	app.MailKeeper = *mailkeeper.NewKeeper(
+		app.appCodec,
+		app.keys[mailtypes.StoreKey],
+		app.keys[mailtypes.MemStoreKey],
+		app.GetSubspace(mailtypes.ModuleName),
 	)
 
 	supportedFeatures := "iterator,staking,stargate"

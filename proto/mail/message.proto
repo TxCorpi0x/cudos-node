@@ -1,0 +1,20 @@
+syntax = "proto3";
+package cudoventures.cudosnode.mail;
+
+option go_package = "github.com/CudoVentures/cudos-node/x/mail/types";
+
+// GenesisState defines the mail message properties.
+message Message {
+  // id is the incremental id of the message
+  uint64 id = 1;
+  // sender is the sender address which is signer 
+  string sender = 2;
+  // receiver is the receiver address 
+  string receiver = 3;
+  // body is the main passage of the message 
+  string body = 4; 
+  // forwarded id is the message id which is being forwarded 
+  uint64 forwardedId = 5; 
+  // ts is the blocktime of the message
+  uint64 ts = 6; 
+}

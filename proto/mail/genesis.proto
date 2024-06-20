@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package cudoventures.cudosnode.mail;
+
+import "gogoproto/gogo.proto";
+import "mail/params.proto";
+import "mail/message.proto";
+
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/CudoVentures/cudos-node/x/mail/types";
+
+// GenesisState defines the mail module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  repeated Message messageList  = 2 [(gogoproto.nullable) = false];
+           uint64  messageCount = 3;
+  repeated uint64 messageSentList  = 4;
+  repeated uint64 messageReceivedList  = 5;
+  // this line is used by starport scaffolding # genesis/proto/state
+}
+
